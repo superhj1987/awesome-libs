@@ -1,4 +1,4 @@
 srhangJUtil
 ===========
 
-a series of util class
+A series of util class
