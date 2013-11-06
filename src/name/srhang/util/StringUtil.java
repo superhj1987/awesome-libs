@@ -63,16 +63,14 @@ public class StringUtil {
             return str.substring(0, n > 0 ? n : 0) + ellipsis;
         }
 
-        return str = str.substring(0, n);
+        return str.substring(0, n);
     }
 
     /**
      * 过滤html代码
      *
-     * @param str      : source string
-     * @param width    : string's byte width
-     * @param ellipsis : a string added to abbreviate string bottom
-     * @return String Object
+     * @param inputString
+     * @return
      */
     public static String Html2Text(String inputString) {
         String htmlStr = inputString; // 含html标签的字符串
@@ -116,7 +114,7 @@ public class StringUtil {
             System.err.println("Html2Text: " + e.getMessage());
         }
 
-        return textStr;// 返回文本字符串
+        return textStr;
     }
 
     /**
@@ -177,6 +175,9 @@ public class StringUtil {
 
     /**
      * MD5 加密
+     *
+     * @param str
+     * @return
      */
     public static String getMD5Str(String str) {
         MessageDigest messageDigest = null;
@@ -188,8 +189,7 @@ public class StringUtil {
 
             messageDigest.update(str.getBytes("UTF-8"));
         } catch (NoSuchAlgorithmException e) {
-            //System.out.println("NoSuchAlgorithmException caught!");
-            System.exit(-1);
+            e.printStackTrace();
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }

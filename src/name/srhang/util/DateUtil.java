@@ -20,8 +20,6 @@ public class DateUtil {
     public static boolean isValidDate(String s) {
         try {
             int length = s.length();
-            //System.out.println("日期长度：" + length);
-            //System.out.println("日期内容： " + s);
             if (length < 4)
                 return false;
             else if (length == 4) {
@@ -54,8 +52,7 @@ public class DateUtil {
         Date date = null;
 
         int length = s.length();
-        //System.out.println("日期长度：" + length);
-        //System.out.println("日期内容： " + s);
+
         try {
             if (length == 4) {
                 date = dateFormat3.parse(s);
