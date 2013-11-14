@@ -5,6 +5,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 import java.util.regex.Pattern;
 
 /**
@@ -206,6 +207,33 @@ public class StringUtil {
         }
 
         return md5StrBuff.toString();
+    }
+
+    public static final String ALPHA_BASE = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    public static final String NUMBER_BASE = "0123456789";
+
+    /**
+     * 生成一定长度的随机字符串,多用于生成验证码
+     *
+     * @param length
+     * @param type
+     * @return
+     */
+    public static String generateRandomCode(int length, RandomCodeType type) {
+        String base = ALPHA_BASE;
+        if (type.equals(RandomCodeType.NUMBER)) {
+            base = NUMBER_BASE;
+        } else if (type.equals(RandomCodeType.ALPHA_NUMBER)) {
+            base = ALPHA_BASE + NUMBER_BASE;
+        }
+
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            sb.append(base.charAt(random.nextInt(base.length())));
+        }
+
+        return sb.toString();
     }
 
 }
