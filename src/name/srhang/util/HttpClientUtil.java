@@ -12,14 +12,12 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 
 /**
  * HTTP请求工具类
  */
 public class HttpClientUtil {
-
     /**
      * 从网络url中获取inputstream，支持 https
      *
@@ -56,14 +54,56 @@ public class HttpClientUtil {
      */
     public static void renderDownloadFromUrl(HttpServletResponse response, String url, String fileName) {
         InputStream is = null;
-        ServletOutputStream sos = null;
         try {
             HttpEntity entity = getEntityFromUrl(url);
             is = entity.getContent();
 
+            renderDownloadFromInputStream(response, is, fileName, (int) entity.getContentLength());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+
+    /**
+     * 读取文件生成下载文件
+     *
+     * @param response
+     * @param file
+     */
+    public static void renderDownloadFromFile(HttpServletResponse response, File file) {
+        if (!file.exists()) {
+            return;
+        }
+        try {
+            renderDownloadFromInputStream(response, new FileInputStream(file), file.getName(), (int) file.length());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 读取inputstream生成下载文件
+     *
+     * @param response
+     * @param is
+     * @param fileName
+     * @param contentLength
+     */
+    public static void renderDownloadFromInputStream(HttpServletResponse response, InputStream is, String fileName, int contentLength) {
+        ServletOutputStream sos = null;
+        try {
             response.setContentType("application/octet-stream");
             response.addHeader("Content-Disposition", "attachment;filename=" + fileName);
-            response.setContentLength((int) entity.getContentLength());
+            response.setContentLength(contentLength);
             sos = response.getOutputStream();
             byte[] buffer = new byte[8192];
             int count = 0;
@@ -76,9 +116,6 @@ public class HttpClientUtil {
             e.printStackTrace();
         } finally {
             try {
-                if (is != null) {
-                    is.close();
-                }
                 if (sos != null) {
                     sos.close();
                 }
