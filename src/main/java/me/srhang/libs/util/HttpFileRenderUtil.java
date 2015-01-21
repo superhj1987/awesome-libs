@@ -1,4 +1,5 @@
-package name.srhang.util;
+package me.srhang.libs.util;
+
 
 import org.apache.http.HttpEntity;
 import org.apache.http.client.ClientProtocolException;
@@ -15,9 +16,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 
 /**
- * HTTP请求工具类
+ * Author: Bryant Hang
+ * Date: 15/1/21
+ * Time: 下午2:30
+ *
+ * 生成文件的http下载链接
  */
-public class HttpClientUtil {
+public class HttpFileRenderUtil {
     /**
      * 从网络url中获取inputstream，支持 https
      *
@@ -29,7 +34,7 @@ public class HttpClientUtil {
 
         try {
             SSLContext sslcontext = SSLContext.getInstance("TLS");
-            sslcontext.init(null, new TrustManager[]{new YxTrustManage()}, null);
+            sslcontext.init(null, new TrustManager[]{new SimpleTrustManager()}, null);
             SSLSocketFactory sf = new SSLSocketFactory(sslcontext);
             Scheme sch = new Scheme("https", 443, sf);
 

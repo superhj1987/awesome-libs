@@ -1,4 +1,4 @@
-package name.srhang.util;
+package me.srhang.libs.util;
 
 import jxl.Sheet;
 import jxl.Workbook;
@@ -11,7 +11,9 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * Excel文件读取、写入类
+ * Author: Bryant Hang
+ * Date: 15/1/21
+ * Time: 下午2:39
  */
 public class ExcelUtil {
     /**
