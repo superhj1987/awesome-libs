@@ -3,6 +3,4 @@
 A series of java util class
 
 * ExcelUtil:use jxl
-* FileUtil
-* HttpClientUtil
-* StringUtil
+* HttpFileRenderUtil: render http file from url、file、inputstream
