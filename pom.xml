@@ -3,9 +3,10 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <url></url>
 
     <groupId>me.srhang</groupId>
-    <artifactId>jutil</artifactId>
+    <artifactId>jlibs</artifactId>
     <version>0.0.1</version>
 
     <repositories>
@@ -212,5 +213,19 @@
             </plugin>
         </plugins>
     </reporting>
+
+    <distributionManagement>
+        <repository>
+            <id>osc-release</id>
+            <name>osc-Releases</name>
+            <url>http://maven.oschina.net/content/repositories/thirdparty/</url>
+        </repository>
+
+        <snapshotRepository>
+            <id>osc-snapshot</id>
+            <name>osc-Snapshots</name>
+            <url>http://maven.oschina.net/content/repositories/thirdparty/</url>
+        </snapshotRepository>
+    </distributionManagement>
 
 </project>
