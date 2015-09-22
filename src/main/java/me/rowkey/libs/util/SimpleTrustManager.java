@@ -1,4 +1,4 @@
-package me.srhang.libs.util;
+package me.rowkey.libs.util;
 
 import javax.net.ssl.X509TrustManager;
 import java.security.cert.CertificateException;

@@ -1,4 +1,4 @@
-package me.srhang.libs.util;
+package me.rowkey.libs.util;
 
 /**
  * Author: Bryant
@@ -6,9 +6,9 @@ package me.srhang.libs.util;
  * Time: 下午3:36
  */
 
-import me.srhang.libs.meta.http.ApplicationType;
-import me.srhang.libs.meta.http.ContentEncoding;
-import me.srhang.libs.meta.http.HttpResult;
+import me.rowkey.libs.meta.http.ApplicationType;
+import me.rowkey.libs.meta.http.ContentEncoding;
+import me.rowkey.libs.meta.http.HttpResult;
 import org.apache.http.*;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;

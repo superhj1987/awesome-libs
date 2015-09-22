@@ -1,4 +1,4 @@
-package me.srhang.libs.meta;
+package me.rowkey.libs.meta;
 
 import java.io.Serializable;
 

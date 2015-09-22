@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
     <url></url>
 
-    <groupId>me.srhang</groupId>
-    <artifactId>jlibs</artifactId>
+    <groupId>me.rowkey</groupId>
+    <artifactId>awesome-libs</artifactId>
     <version>0.0.1</version>
 
     <repositories>
@@ -165,6 +165,12 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>18.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20090211</version>
         </dependency>
 
     </dependencies>

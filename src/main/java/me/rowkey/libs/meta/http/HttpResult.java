@@ -1,6 +1,6 @@
-package me.srhang.libs.meta.http;
+package me.rowkey.libs.meta.http;
 
-import me.srhang.libs.meta.Bean;
+import me.rowkey.libs.meta.Bean;
 import org.apache.http.HttpStatus;
 
 /**

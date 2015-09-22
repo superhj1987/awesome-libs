@@ -1,12 +1,9 @@
-package me.srhang.libs.util;
+package me.rowkey.libs.util;
 
 import javax.imageio.ImageIO;
-import javax.imageio.ImageReader;
-import javax.imageio.stream.ImageInputStream;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Iterator;
 
 /**
  * Author: Bryant Hang

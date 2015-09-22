@@ -1,4 +1,4 @@
-package me.srhang.libs.util;
+package me.rowkey.libs.util;
 
 
 import org.apache.http.HttpEntity;
