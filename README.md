@@ -1,8 +1,13 @@
-#awesome-jlibs
+#awesome-libs
 
-java libs for common use
+some java usefule utils and so on.
 
-- ExcelUtil:use jxl
-- HttpFileRenderUtil: render http file from url、file、inputstream
-- ImageUtil: check the file is or not a image file
-- HttpClientUtil
+1. ExcelUtil:use jxl
+
+2. HttpFileRenderUtil: render http file from url、file、inputstream
+
+3. ImageUtil: check the file is or not a image file
+
+4. HttpClientUtil: send http request with cnnection pool
+
+5. ServerChanUtil: @see <http://sc.ftqq.com/2.version>
