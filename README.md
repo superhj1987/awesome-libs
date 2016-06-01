@@ -1,26 +1,6 @@
 #awesome-libs
 
 some java useful utils and so on.
-
-## Maven 
-
-    <repository>
-      <id>nexus-third</id>
-      <name>Nexus osc third</name>
-      <url>http://maven.oschina.net/content/repositories/thirdparty/</url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-
-    <dependency>
-      <groupId>me.rowkey</groupId>
-      <artifactId>awesome-libs</artifactId>
-      <version>0.0.1</version>
-    </dependency>
   
 ## Libs
 
