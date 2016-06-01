@@ -12,22 +12,22 @@ import me.rowkey.libs.meta.http.HttpResult;
 import org.apache.http.*;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.GzipDecompressingEntity;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.*;
 import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.config.RegistryBuilder;
+import org.apache.http.config.SocketConfig;
 import org.apache.http.conn.ConnectionKeepAliveStrategy;
-import org.apache.http.conn.scheme.PlainSocketFactory;
-import org.apache.http.conn.scheme.Scheme;
-import org.apache.http.conn.scheme.SchemeRegistry;
+import org.apache.http.conn.socket.ConnectionSocketFactory;
+import org.apache.http.conn.socket.PlainConnectionSocketFactory;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.entity.ContentType;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.conn.PoolingClientConnectionManager;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicHeaderElementIterator;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.CoreConnectionPNames;
-import org.apache.http.params.CoreProtocolPNames;
-import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
@@ -35,6 +35,9 @@ import org.apache.log4j.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.net.ssl.KeyManager;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
@@ -53,7 +56,7 @@ public class HttpClientUtil {
 
     private static final int CONNECTION_TIMEOUT = 3000;// 连接超时时间
     private static final int SO_TIMEOUT = 5000;// 等待数据超时时间
-    private PoolingClientConnectionManager pool = null;
+    private PoolingHttpClientConnectionManager pool = null;
     private int maxConnection = 32;
     private static final String DEFAULT_CHARSET = "UTF-8";
     private int conntimeout = CONNECTION_TIMEOUT;
@@ -61,8 +64,8 @@ public class HttpClientUtil {
     private String reqCharset = DEFAULT_CHARSET;
     private String resCharset = DEFAULT_CHARSET;
 
-    private static final String COMMON_USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.71 Safari/537.36;Suishenyun/0.1";
-    private static final String MOBILE_USER_AGENT = "Mozilla/5.0 (iPhone; CPU iPhone OS 7_0 like Mac OS X; en-us) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11A465 Safari/9537.53;;Suishenyun/0.1";
+    private static final String COMMON_USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.71 Safari/537.36;rokey.me/0.1";
+    private static final String MOBILE_USER_AGENT = "Mozilla/5.0 (iPhone; CPU iPhone OS 7_0 like Mac OS X; en-us) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11A465 Safari/9537.53;rowkey.me/0.1";
     private String agentHeader = COMMON_USER_AGENT;
 
     public HttpClientUtil() {
@@ -100,22 +103,28 @@ public class HttpClientUtil {
         this.resCharset = resCharset;
     }
 
-    private HttpParams getParams() {
-        HttpParams params = new BasicHttpParams();
-        params.setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
-        params.setParameter(CoreConnectionPNames.SO_TIMEOUT, sotimeout);
-        params.setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, conntimeout);
-        return params;
-    }
-
     private HttpClient httpClient;
 
     public HttpClient getHttpClient() {
         if (httpClient == null) {
             synchronized (this) {
                 if (httpClient == null) {
-                    httpClient = new DefaultHttpClient(pool, getParams());
-                    ((DefaultHttpClient) httpClient).setKeepAliveStrategy(new ConnectionKeepAliveStrategy() {
+                    if (pool == null) { //初始化pool
+                        try {
+                            afterPropertiesSet();
+                        } catch (Exception e) {
+                            logger.error(e, e);
+                        }
+                    }
+
+                    HttpClientBuilder httpClientBuilder = HttpClients.custom();
+                    httpClientBuilder.setConnectionManager(pool);
+                    httpClientBuilder.setDefaultRequestConfig(
+                            RequestConfig.custom()
+                                    .setConnectTimeout(conntimeout)
+                                    .setSocketTimeout(sotimeout)
+                                    .build());
+                    httpClientBuilder.setKeepAliveStrategy(new ConnectionKeepAliveStrategy() {
                         public long getKeepAliveDuration(HttpResponse response, HttpContext context) {
                             HeaderElementIterator it = new BasicHeaderElementIterator(response
                                     .headerIterator(HTTP.CONN_KEEP_ALIVE));
@@ -134,6 +143,7 @@ public class HttpClientUtil {
                             return 5 * 1000;
                         }
                     });
+                    httpClient = httpClientBuilder.build();
                 }
             }
         }
@@ -151,12 +161,19 @@ public class HttpClientUtil {
 
     @PostConstruct
     public void afterPropertiesSet() throws Exception {
-        SchemeRegistry schemeRegistry = new SchemeRegistry();
-        schemeRegistry.register(new Scheme("http", 80, PlainSocketFactory.getSocketFactory()));
-        schemeRegistry.register(new Scheme("https", 443, PlainSocketFactory.getSocketFactory()));
-        pool = new PoolingClientConnectionManager(schemeRegistry);
+        RegistryBuilder<ConnectionSocketFactory> schemeRegistry = RegistryBuilder.create();
+
+        schemeRegistry.register("http", PlainConnectionSocketFactory.getSocketFactory());
+
+        SSLContext sslcontext = SSLContext.getInstance("TLS");
+        sslcontext.init(new KeyManager[0], new TrustManager[]{new SimpleTrustManager()}, null);
+        SSLConnectionSocketFactory sf = new SSLConnectionSocketFactory(sslcontext);
+        schemeRegistry.register("https", sf);
+
+        pool = new PoolingHttpClientConnectionManager(schemeRegistry.build());
         pool.setMaxTotal(maxConnection);
         pool.setDefaultMaxPerRoute(maxConnection);
+        pool.setDefaultSocketConfig(SocketConfig.custom().setSoTimeout(sotimeout).build());
     }
 
     /**
@@ -188,7 +205,7 @@ public class HttpClientUtil {
      * @param type
      * @param isGzip 是否使用gzip解压
      * @return
-     * @throws java.io.IOException
+     * @throws IOException
      */
     public String getData(String url, List<NameValuePair> params, ApplicationType type, boolean isGzip) throws IOException {
         return fetchData(createGet(url, params, type));
@@ -208,7 +225,7 @@ public class HttpClientUtil {
      * @param type
      * @param isGzip 是否使用gzip解压
      * @return
-     * @throws java.io.IOException
+     * @throws IOException
      */
     public String putData(String url, List<NameValuePair> params, ApplicationType type, boolean isGzip) throws IOException {
         return fetchData(createPut(url, params, type));
@@ -228,7 +245,7 @@ public class HttpClientUtil {
      * @param type
      * @param isGzip 是否使用gzip解压
      * @return
-     * @throws java.io.IOException
+     * @throws IOException
      */
     public String deleteData(String url, List<NameValuePair> params, ApplicationType type, boolean isGzip) throws IOException {
         return fetchData(createDelete(url, params, type));
@@ -248,7 +265,7 @@ public class HttpClientUtil {
      * @param type
      * @param isGzip 是否使用gzip解压
      * @return
-     * @throws java.io.IOException
+     * @throws IOException
      */
     public String postData(String url, final HttpEntity entity, ApplicationType type, boolean isGzip) throws IOException {
         return fetchData(this.createPost(url, entity, type));
@@ -268,7 +285,7 @@ public class HttpClientUtil {
      * @param type
      * @param isGzip 是否使用gzip解压
      * @return
-     * @throws java.io.IOException
+     * @throws IOException
      */
     public String postData(String url, final List<NameValuePair> params, ApplicationType type, boolean isGzip) throws IOException {
         return fetchData(this.createPost(url, params, type));
@@ -297,9 +314,12 @@ public class HttpClientUtil {
         if (request == null) {
             return new HttpResult(HttpStatus.SC_BAD_REQUEST, "null request");
         }
+        request.setProtocolVersion(HttpVersion.HTTP_1_1);
         HttpClient client = null;
         String result = null;
         long watch = System.nanoTime();
+        HttpResponse response = null;
+        HttpEntity rsentity = null;
         try {
             client = getHttpClient();
 
@@ -308,20 +328,8 @@ public class HttpClientUtil {
 
             request.addHeader("Connection", "keep-alive");
 
-            //            if (request.getURI().getScheme().contains("https")) {
-//                try {
-//                    SSLContext sslcontext = SSLContext.getInstance("TLS");
-//                    sslcontext.init(new KeyManager[0], new TrustManager[]{new SimpleTrustManager()}, null);
-//                    SSLSocketFactory sf = new SSLSocketFactory(sslcontext);
-//                    Scheme sch = new Scheme("https", 443, sf);
-//                    client.getConnectionManager().getSchemeRegistry().register(sch);
-//                } catch (Exception e) {
-//                    logger.error(e, e);
-//                }
-//            }
-
-            HttpResponse response = client.execute(request);
-            HttpEntity rsentity = response.getEntity();
+            response = client.execute(request);
+            rsentity = response.getEntity();
             if (rsentity.getContentEncoding() != null &&
                     rsentity.getContentEncoding().getValue().toLowerCase().contains(ContentEncoding.GZIP.getName())) {
                 rsentity = new GzipDecompressingEntity(rsentity);
@@ -362,7 +370,11 @@ public class HttpClientUtil {
             logger.error("fetch request error " + request.getURI() + " msg" + e.getMessage());
             httpResult = new HttpResult(HttpStatus.SC_BAD_REQUEST, e.getMessage());
         } finally {
-
+            try {
+                EntityUtils.consume(rsentity);
+            } catch (IOException e) {
+                logger.error("Ensures that the entity content is fully consumed " + e.getMessage());
+            }
             request.releaseConnection();
             if (logger.isDebugEnabled())
                 logger.debug("fetch url " + request.getURI() + ",consume: " + (System.nanoTime() - watch) / 1000);
