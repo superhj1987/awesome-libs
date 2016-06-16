@@ -185,6 +185,19 @@
             <version>1.2.1</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-servlet</artifactId>
+            <version>9.3.9.v20160517</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-webapp</artifactId>
+            <version>9.3.9.v20160517</version>
+        </dependency>
+
+
     </dependencies>
 
     <build>
