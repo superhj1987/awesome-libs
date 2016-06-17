@@ -1,8 +1,9 @@
 package me.rowkey.libs.server;
 
+import org.apache.commons.io.FileUtils;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.ServerConnector;
+import org.eclipse.jetty.server.nio.SelectChannelConnector;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.webapp.WebAppContext;
@@ -13,12 +14,13 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
-import java.net.URL;
+import java.io.File;
 
 /**
  * Author: Bryant Hang
  * Date: 16/6/16
  * Time: 下午9:31
+ * args: --host=xx --port=xx --prefix=xxx(contextPath)
  */
 public class JettyLauncher {
 
@@ -28,16 +30,22 @@ public class JettyLauncher {
     private int port = 8080;
     private String contextPath = "/";
 
-    public void launchWebapp(String[] args) throws Exception {
+    public void launchWebapp(String[] args, String webappBase) throws Exception {
         Server server = initServer(args);
 
         WebAppContext context = new WebAppContext();
-        URL location = JettyLauncher.class.getResource("/");
+
+        File tmpDir = new File(webappBase + "/tmp");
+        if (tmpDir.exists()) {
+            FileUtils.deleteDirectory(tmpDir);
+        }
+        tmpDir.mkdirs();
+        context.setTempDirectory(tmpDir);
 
         context.setContextPath(this.contextPath);
-        context.setDescriptor(location.toExternalForm() + "/WEB-INF/web.xml");
+        context.setDescriptor(webappBase + "/WEB-INF/web.xml");
         context.setServer(server);
-        context.setWar(location.toExternalForm());
+        context.setWar(webappBase);
 
         launch(server, context);
     }
@@ -89,14 +97,13 @@ public class JettyLauncher {
 
         Server server = new Server();
 
-        ServerConnector connector = new ServerConnector(server);
+        SelectChannelConnector connector = new SelectChannelConnector();
         if (host != null) {
             connector.setHost(host);
         }
-        connector.setIdleTimeout(1000 * 60 * 60);
+        connector.setMaxIdleTime(1000 * 60 * 60);
         connector.setSoLingerTime(-1);
         connector.setPort(port);
-
         server.addConnector(connector);
 
         return server;
