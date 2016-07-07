@@ -58,6 +58,6 @@ some java useful utils and so on.
             </property>
         </bean>
         
- 1. [spring-mvc-model-attribute-alias](doc/spring-mvc-model-attribute-alias.md)
+1. [spring-mvc-model-attribute-alias](doc/spring-mvc-model-attribute-alias.md)
  
- 1. [spring-remoting-thrift](doc/spring-remoting-thrift.md)
+1. [spring-remoting-thrift](doc/spring-remoting-thrift.md)
