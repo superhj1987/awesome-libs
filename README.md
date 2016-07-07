@@ -1,4 +1,4 @@
-#awesome-libs
+# awesome-libs
 
 some java useful utils and so on.
 
@@ -21,6 +21,14 @@ some java useful utils and so on.
 1. [ServerChanUtil](src/main/java/me/rowkey/libs/util/ServerChanUtil.java)
 
   @see <http://sc.ftqq.com/2.version>
+  
+1. [SortUtil](src/main/java/me/rowkey/libs/util/SortUtil.java)
+
+  include seven common use sort algorithms
+  
+1. [SystemUtil](src/main/java/me/rowkey/libs/util/SystemUtil.java)
+ 
+   include some system function such as killByPid and so on
 
 1. [AwesomePropertiesPersister](src/main/java/me/rowkey/libs/spring/config/AwesomePropertiesPersister.java) 
 
