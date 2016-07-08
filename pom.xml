@@ -81,6 +81,7 @@
             <artifactId>jsp-api</artifactId>
             <version>2.1</version>
             <optional>true</optional>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
