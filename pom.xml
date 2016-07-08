@@ -3,11 +3,14 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <url></url>
 
     <groupId>me.rowkey</groupId>
     <artifactId>awesome-libs</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    
+    <name>awesome libs</name>
+    <description>this is awesome java libs</description>
+    <url>https://github.com/superhj1987/awesome-libs</url>
 
     <repositories>
         <repository>
