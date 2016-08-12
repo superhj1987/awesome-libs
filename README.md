@@ -30,6 +30,14 @@ some java useful utils and so on.
  
    include some system function such as killByPid and so on
 
+1. [LoogerUtil](src/main/java/me/rowkey/libs/util/LoggerUtil.java)
+
+   logger operation, can output the line u call the method
+
+1. [JavaUtil](src/main/java/me/rowkey/libs/util/JavaUtil.java)
+
+   Java operation util, such as get the line no of the code
+
 1. [AwesomePropertiesPersister](src/main/java/me/rowkey/libs/spring/config/AwesomePropertiesPersister.java) 
 
   支持**.properites,.json,.conf(HOCON),.yaml**文件格式
