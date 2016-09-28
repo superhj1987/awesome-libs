@@ -27,7 +27,7 @@ import java.util.Properties;
  * <property name="propertiesPersister" ref="persister"/>
  * </bean>
  * <p/>
- * <bean class="suishen.libs.spring.config.AwesomePropertiesPersister"/>
+ * <bean id="persister" class="suishen.libs.spring.config.AwesomePropertiesPersister"/>
  */
 public class AwesomePropertiesPersister implements PropertiesPersister {
     @Override

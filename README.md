@@ -40,7 +40,7 @@ some java useful utils and so on.
 
 1. [AwesomePropertiesPersister](src/main/java/me/rowkey/libs/spring/config/AwesomePropertiesPersister.java) 
 
-  支持**.properites,.json,.conf(HOCON),.yaml**文件格式
+  支持**.properites,.json,.conf(HOCON),.yaml**文件格式;支持java properties包含中文
 
         <bean id="propertyConfigurer"
             class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -49,11 +49,11 @@ some java useful utils and so on.
             ...
             <property name="propertiesPersister" ref="persister"/>
         </bean>
-        <bean class="me.rowkey.libs.spring.config.AwesomePropertiesPersister"/>
+        <bean id="persister" class="me.rowkey.libs.spring.config.AwesomePropertiesPersister"/>
     
 1. [AwesomePropertyPlaceholderConfigurer](src/main/java/me/rowkey/libs/spring/config/AwesomePropertyPlaceholderConfigurer.java)
 
-  use this PropertyPlaceholderConfigurer can adapt .properties,.json,.conf,.yaml config files.
+  use this PropertyPlaceholderConfigurer can adapt .properties,.json,.conf,.yaml config files and support chinese in java properties.
 
         <bean id="propertyConfigurer"
                   class="me.rowkey.libs.spring.config.AwesomePropertyPlaceholderConfigurer">
