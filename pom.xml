@@ -13,18 +13,6 @@
     <url>https://github.com/superhj1987/awesome-libs</url>
 
     <repositories>
-        <repository>
-            <id>nexus-osc</id>
-            <name>Nexus osc</name>
-            <url>http://maven.oschina.net/content/groups/public/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-
         <!-- used for milestone/rc releases -->
         <repository>
             <id>spring-maven-milestone</id>
