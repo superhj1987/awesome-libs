@@ -1,13 +1,35 @@
 package me.rowkey.libs.util;
 
 import java.io.IOException;
+import java.lang.management.ManagementFactory;
 
 /**
  * Author: Bryant Hang
  * Date: 16/7/7
  * Time: 18:09
  */
-public class SystemUtil {
+public class Systems {
+    private static final String PID = ManagementFactory.getRuntimeMXBean().getName().split("@")[0];
+
+    private static final String HOST_PID = Networks.getSiteIp() + ":" + PID;
+
+    private static final int CPU_CORES = Runtime.getRuntime().availableProcessors();
+
+    private Systems() {
+    }
+
+    public static String pid() {
+        return PID;
+    }
+
+    public static int cpuNum() {
+        return CPU_CORES;
+    }
+
+    public static String hostPid() {
+        return HOST_PID;
+    }
+
     public static void killByPid(String str) {
         final String[] Array = {"ntsd.exe", "-c", "q", "-p", str};
         int i = 0;
