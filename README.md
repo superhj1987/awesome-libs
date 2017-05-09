@@ -4,51 +4,43 @@ some java useful utils and so on.
 
 1. [ExcelUtil](src/main/java/me/rowkey/libs/util/ExcelUtil.java)
 
-    > 封装了excel读取、生成操作
+    封装了excel读取、生成操作
 
 1. [HttpFileRenderUtil](src/main/java/me/rowkey/libs/util/HttpFileRenderUtil.java)
 
-    > render http file from url、file、inputstream
+    render http file from url、file、inputstream
 
 1. [ImageUtil](src/main/java/me/rowkey/libs/util/ImageUtil.javal)
 
-    > check the file is or not a image file
+    check the file is or not a image file
 
 1. [HttpClientUtil](src/main/java/me/rowkey/libs/util/HttpClientUtil.java)
 
-    > send http request with connection pool, newest with apache httpcomments httpclient 4.3
+    send http request with connection pool, newest with apache httpcomments httpclient 4.3
 
 1. [ServerChanUtil](src/main/java/me/rowkey/libs/util/ServerChanUtil.java)
-    
-    > @see <http://sc.ftqq.com/2.version>
+
+    @see <http://sc.ftqq.com/2.version>
   
 1. [SortUtil](src/main/java/me/rowkey/libs/util/SortUtil.java)
 
-    > include seven common use sort algorithms
+    include seven common use sort algorithms
   
-1. [Systems](src/main/java/me/rowkey/libs/util/Systems.java)
+1. [SystemUtil](src/main/java/me/rowkey/libs/util/SystemUtil.java)
  
-    > include some system function such as killByPid, cpuCores, hostPid and so on
+    include some system function such as killByPid and so on
 
 1. [LoogerUtil](src/main/java/me/rowkey/libs/util/LoggerUtil.java)
 
-    > logger operation, can output the line u call the method
+    logger operation, can output the line u call the method
 
 1. [JavaUtil](src/main/java/me/rowkey/libs/util/JavaUtil.java)
 
-    > Java operation util, such as get the line no of the code
-   
-1. [Networks](src/main/java/me/rowkey/libs/util/Networks.java)
-
-    > network utils, include ip、hostaddress...
-
-1. [LRUCache](src/main/java/me/rowkey/libs/cache/LRUCache.java)
-    
-    > lru缓存的linkedhashmap实现
+    Java operation util, such as get the line no of the code
 
 1. [AwesomePropertiesPersister](src/main/java/me/rowkey/libs/spring/config/AwesomePropertiesPersister.java) 
 
-    > 支持**.properites,.json,.conf(HOCON),.yaml**文件格式;支持java properties包含中文
+    支持**.properites,.json,.conf(HOCON),.yaml**文件格式;支持java properties包含中文
 
         <bean id="propertyConfigurer"
             class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -61,7 +53,7 @@ some java useful utils and so on.
     
 1. [AwesomePropertyPlaceholderConfigurer](src/main/java/me/rowkey/libs/spring/config/AwesomePropertyPlaceholderConfigurer.java)
 
-    > use this PropertyPlaceholderConfigurer can adapt .properties,.json,.conf,.yaml config files and support chinese in java properties.
+    use this PropertyPlaceholderConfigurer can adapt .properties,.json,.conf,.yaml config files and support chinese in java properties.
 
         <bean id="propertyConfigurer"
                   class="me.rowkey.libs.spring.config.AwesomePropertyPlaceholderConfigurer">

@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!DOCTYPE module PUBLIC
+    "-//Puppy Crawl//DTD Check Configuration 1.2//EN" 
+    "http://www.puppycrawl.com/dtds/configuration_1_2.dtd">
+<module name="Checker">
+    <module name="TreeWalker">
+        <!-- Checks for Javadoc comments. -->
+        <!-- See http://checkstyle.sf.net/config_javadoc.html -->
+        <module name="JavadocType" /><!-- java的class类需要有注释说明 -->
+        <!-- check Method，默认的规则为^[a-z][a-zA-Z0-9]*$ 小写字母开头 -->
+        <module name="MethodName"/>
+        <!-- check local non-final variables, include parameters in catch，默认规则为^[a-z][a-zA-Z0-9]*$ -->
+        <module name="LocalVariableName" />
+        <!-- 构造类，默认的检查规则为 ^Abstract.*$|^.*Factory$ -->
+        <module name="AbstractClassName" />
+        <!-- check pakage name(only, lower case)，包名必须已com.netaease开头 -->
+        <!--<module name="PackageName">
+            <property name="format" value="^com\.netease\.[a-z]+(\.[a-z][a-z0-9]*)*$" />
+        </module>-->
+        <!-- check constant ，包含static和final的常量，检查规则为^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$ 
+            必须开头大写字母，其它为大写字母、下划线或者数字 -->
+        <module name="ConstantName" />
+        <!-- check non-static variables，默认^[a-z][a-zA-Z0-9]*$ -->
+        <module name="MemberName" />
+        <!-- check only for static variables, not include static final ，默认规则 ^[a-z][a-zA-Z0-9]*$ -->
+        <module name="StaticVariableName" />
+        <!-- check method parameters，默认规则默认规则 ^[a-z][a-zA-Z0-9]*$ -->
+        <module name="ParameterName " />
+        <!-- check namespace use Sun rules check local final variables, include 
+            parameters in catch，默认规则 ^[a-z][a-zA-Z0-9]*$ -->
+        <module name="LocalFinalVariableName" />
+
+        <!-- Checks for Size Violations.                    -->
+        <!-- See http://checkstyle.sf.net/config_sizes.html -->
+        <!-- 每行代码长度为200个字符 -->
+        <module name="LineLength">
+                <property name="max" value="200"/>
+        </module>
+        <module name="MethodLength"/><!-- 默认每个方法最多150行 -->
+
+        <!-- Checks for common coding problems               -->
+        <!-- See http://checkstyle.sf.net/config_coding.html -->
+        <module name="EqualsAvoidNull"/><!-- 避免存在null指针，比如 nullString.equals("My_Sweet_String"); -->
+        <module name="EmptyStatement"/><!-- 检查空语句，只有冒号 -->
+        <module name="RedundantThrows"/><!-- 检查代码中重复throw异常 -->
+        <module name="SimplifyBooleanReturn"/><!-- boolean类型的返回值编写复杂的可以修改为简单的 -->
+        <module name="StringLiteralEquality"/><!-- 字符串比较不要用==需要用equlas -->
+        <!--<module name="IllegalCatch"/>--><!--catch的时候不要直接Exception全部捕获，会导致遗漏一些内存泄露等的问题需要按具体Exception类型进行 -->
+        <module name="PackageDeclaration"/><!-- 类需要有包名，否则以后其它地方引用会导入不进来 -->
+        <module name="JUnitTestCase"/><!-- 检查setup,teardown方法拼写、返回值等是否正确 -->
+        <module name="UnnecessaryParentheses"/><!-- 检查是否使用了不需要的括号 -->    
+
+    </module>
+</module>
