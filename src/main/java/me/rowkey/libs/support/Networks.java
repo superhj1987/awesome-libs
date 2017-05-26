@@ -1,4 +1,4 @@
-package me.rowkey.libs.util;
+package me.rowkey.libs.support;
 
 import com.google.common.collect.Lists;
 import me.rowkey.libs.cache.LRUCache;
@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
 /**
  * Created by Bryant.Hang on 2017/5/9.
  */
-public class Networks {
+public final class Networks {
     private static final Pattern LOCAL_IP_PATTERN = Pattern.compile("127(\\.\\d{1,3}){3}$");
 
     private static final int RND_PORT_START = 30000;
@@ -27,6 +27,10 @@ public class Networks {
     private static final int RND_PORT_RANGE = 10000;
 
     private static final int MAX_PORT = 65535;
+
+    private Networks(){
+
+    }
 
     public static boolean isInvalidLocalHost(String host) {
         return host == null

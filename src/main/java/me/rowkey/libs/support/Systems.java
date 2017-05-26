@@ -1,4 +1,4 @@
-package me.rowkey.libs.util;
+package me.rowkey.libs.support;
 
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
@@ -8,7 +8,7 @@ import java.lang.management.ManagementFactory;
  * Date: 16/7/7
  * Time: 18:09
  */
-public class Systems {
+public final class Systems {
     private static final String PID = ManagementFactory.getRuntimeMXBean().getName().split("@")[0];
 
     private static final String HOST_PID = Networks.getSiteIp() + ":" + PID;

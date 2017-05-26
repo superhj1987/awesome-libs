@@ -6,9 +6,11 @@ package me.rowkey.libs.util;
  * Time: 下午3:36
  */
 
+import com.google.common.collect.Maps;
 import me.rowkey.libs.meta.http.ApplicationType;
 import me.rowkey.libs.meta.http.ContentEncoding;
 import me.rowkey.libs.meta.http.HttpResult;
+import me.rowkey.libs.support.Urls;
 import org.apache.http.*;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -43,12 +45,15 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 带连接池的HTTP
  */
 
 public class HttpClientUtil {
+
+    private final Map<String, HttpClient> httpClientMap = Maps.newHashMap();
 
     private static final String TAG_CHARSET = "charset=";
 
@@ -103,9 +108,13 @@ public class HttpClientUtil {
         this.resCharset = resCharset;
     }
 
-    private HttpClient httpClient;
-
     public HttpClient getHttpClient() {
+        return getHttpClient("");
+    }
+
+    public HttpClient getHttpClient(String url) {
+        String domain = Urls.getDomain(url);
+        HttpClient httpClient = httpClientMap.get(domain);
         if (httpClient == null) {
             synchronized (this) {
                 if (httpClient == null) {
@@ -144,6 +153,7 @@ public class HttpClientUtil {
                         }
                     });
                     httpClient = httpClientBuilder.build();
+                    httpClientMap.put(domain, httpClient);
                 }
             }
         }
@@ -321,7 +331,7 @@ public class HttpClientUtil {
         HttpResponse response = null;
         HttpEntity rsentity = null;
         try {
-            client = getHttpClient();
+            client = getHttpClient(request.getURI().toString());
 
             request.addHeader("User-Agent", agentHeader);
             this.agentHeader = COMMON_USER_AGENT;

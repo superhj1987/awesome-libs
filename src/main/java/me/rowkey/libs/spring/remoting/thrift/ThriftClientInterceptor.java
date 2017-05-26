@@ -79,7 +79,7 @@ public class ThriftClientInterceptor extends UrlBasedRemoteAccessor implements M
     }
 
     protected TTransport getTransport() throws TTransportException {
-        return new THttpClient(getServiceUrl(), httpClientUtil.getHttpClient());
+        return new THttpClient(getServiceUrl(), httpClientUtil.getHttpClient(getServiceUrl()));
     }
 
     public void setHttpClientUtil(HttpClientUtil httpClientUtil) {
