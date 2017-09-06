@@ -89,6 +89,6 @@ some java useful utils and so on.
  
 1. [spring-remoting-thrift](doc/spring-remoting-thrift.md)
 
-1. [picocli](http://picocli.info) 
+1. [Third libs](https://github.com/superhj1987/awesome-java) 
 
-    > Annotation based command line parser with strong typing for both options and positional args and support for git-like subcommands. Usage help with ANSI colors. Easily included as source to avoid external dependencies.
+    > include about all of the common usage open source java libs and softwares
