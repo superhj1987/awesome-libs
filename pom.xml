@@ -28,7 +28,7 @@
     </repositories>
 
     <properties>
-        <spring.version>4.3.17.RELEASE</spring.version>
+        <spring.version>4.3.18.RELEASE</spring.version>
         <configuration.source>1.7</configuration.source>
         <configuration.target>1.7</configuration.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
